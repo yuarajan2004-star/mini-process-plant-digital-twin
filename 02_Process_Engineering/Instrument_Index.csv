@@ -1,0 +1,4 @@
+Tag,Type,Range,Unit
+FT-101,Flow Sensor,0-180,L/hr
+PT-101,Pressure Sensor,0-2,bar
+TT-101,Temperature Sensor,0-100,C

@@ -97,7 +97,27 @@ health = max(0, health)
 st.title(
     "Mini Process Plant Digital Twin"
 )
+st.subheader("Plant Mimic")
 
+st.code(
+"""
++----------------+
+|   TANK TK101   |
++----------------+
+         |
+      PT101
+         |
+      P101
+         |
+      FT101
+         |
+      TT101
+         |
++----------------+
+| RETURN HEADER  |
++----------------+
+"""
+)
 # =====================================================
 # AI STATUS
 # =====================================================
@@ -109,6 +129,12 @@ st.subheader(
 if prediction == 0:
 
     st.success(
+        f"AI Prediction : {fault_text}"
+    )
+
+elif prediction in [1,2,3,4]:
+
+    st.warning(
         f"AI Prediction : {fault_text}"
     )
 
@@ -125,6 +151,22 @@ else:
 st.subheader(
     "Equipment Health"
 )
+
+st.subheader(
+    "Equipment Status"
+)
+
+if pump == 1:
+
+    st.success(
+        "P-101 RUNNING"
+    )
+
+else:
+
+    st.error(
+        "P-101 STOPPED"
+    )
 
 st.progress(
     health / 100

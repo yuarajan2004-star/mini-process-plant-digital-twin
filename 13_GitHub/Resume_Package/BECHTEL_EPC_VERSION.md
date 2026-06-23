@@ -1,0 +1,1 @@
+Developed a complete EPC-style Digital Twin solution integrating process engineering, instrumentation, historian architecture, AI predictive maintenance, FAT, SAT and commissioning documentation for an Industry 4.0 process plant application.

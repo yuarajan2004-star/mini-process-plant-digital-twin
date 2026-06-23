@@ -8,13 +8,15 @@ st.set_page_config(
 
 st.title("Mini Process Plant Digital Twin")
 
-FILE = "/home/yuarajan_s/Mini_Process_Plant_DT/08_Data/Historian/plant_historian.csv"
+FILE = "../../08_Data/Historian/plant_historian.csv"
 
 df = pd.read_csv(FILE)
 
+st.subheader("Latest Process Values")
+
 latest = df.iloc[-1]
 
-c1, c2, c3, c4 = st.columns(4)
+c1,c2,c3,c4 = st.columns(4)
 
 c1.metric(
     "Pressure (bar)",
@@ -33,16 +35,19 @@ c3.metric(
 
 c4.metric(
     "Pump",
-    "RUNNING" if latest["Pump_Status"] == 1 else "STOPPED"
+    "RUNNING" if latest["Pump_Status"]==1 else "STOPPED"
 )
 
 st.subheader("Pressure Trend")
+
 st.line_chart(df["PT101"])
 
 st.subheader("Flow Trend")
+
 st.line_chart(df["FT101"])
 
 st.subheader("Temperature Trend")
+
 st.line_chart(df["TT101"])
 
 st.subheader("Historian Data")

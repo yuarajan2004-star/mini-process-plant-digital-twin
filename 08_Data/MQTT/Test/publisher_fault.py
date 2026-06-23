@@ -1,6 +1,5 @@
 import json
 import time
-
 import paho.mqtt.client as mqtt
 
 client = mqtt.Client()
@@ -15,13 +14,10 @@ while True:
 
     payload = {
 
-        "PT101":0.70,
-
-        "FT101":70,
-
-        "TT101":36,
-
-        "Pump_Status":1
+        "PT101": 0.70,
+        "FT101": 70,
+        "TT101": 36,
+        "Pump_Status": 1
     }
 
     client.publish(

@@ -1,5 +1,7 @@
 import pandas as pd
 import streamlit as st
+import joblib
+
 from streamlit_autorefresh import st_autorefresh
 
 # =====================================================
@@ -21,12 +23,18 @@ st_autorefresh(
 )
 
 # =====================================================
-# DATA SOURCE
+# FILES
 # =====================================================
 
-FILE = "/home/yuarajan_s/Mini_Process_Plant_DT/08_Data/Historian/plant_historian.csv"
+DATA_FILE = "/home/yuarajan_s/Mini_Process_Plant_DT/08_Data/Historian/plant_historian.csv"
 
-df = pd.read_csv(FILE)
+MODEL_FILE = "/home/yuarajan_s/Mini_Process_Plant_DT/09_AI_Model/Models/fault_classifier.pkl"
+
+# =====================================================
+# LOAD DATA
+# =====================================================
+
+df = pd.read_csv(DATA_FILE)
 
 latest = df.iloc[-1]
 
@@ -36,66 +44,96 @@ temperature = latest["TT101"]
 pump = latest["Pump_Status"]
 
 # =====================================================
-# ALARM ENGINE
+# LOAD MODEL
 # =====================================================
 
-alarms = []
+model = joblib.load(MODEL_FILE)
 
-if pressure < 0.85:
-    alarms.append("LOW PRESSURE")
+prediction_input = pd.DataFrame(
+    [[pressure, flow, temperature]],
+    columns=[
+        "PT101",
+        "FT101",
+        "TT101"
+    ]
+)
 
-if pressure > 1.15:
-    alarms.append("HIGH PRESSURE")
+prediction = model.predict(
+    prediction_input
+)[0]
 
-if flow < 95:
-    alarms.append("LOW FLOW")
+fault_map = {
 
-if temperature > 33:
-    alarms.append("HIGH TEMPERATURE")
+    0: "NORMAL",
+
+    1: "LOW PRESSURE",
+
+    2: "HIGH PRESSURE",
+
+    3: "LOW FLOW",
+
+    4: "HIGH TEMPERATURE",
+
+    5: "COMBINED FAULT"
+}
+
+fault_text = fault_map[prediction]
 
 # =====================================================
-# EQUIPMENT HEALTH SCORE
+# HEALTH SCORE
 # =====================================================
 
 health = 100
 
-# Warning thresholds (less aggressive)
-
-if pressure < 0.85:
-    health -= 10
-
-if flow < 95:
-    health -= 10
-
-if temperature > 33:
-    health -= 10
-
-if len(alarms) > 0:
-    health -= 10
+if prediction != 0:
+    health -= 20
 
 health = max(0, health)
 
 # =====================================================
-# HEADER
+# TITLE
 # =====================================================
 
-st.title("Mini Process Plant Digital Twin")
+st.title(
+    "Mini Process Plant Digital Twin"
+)
 
 # =====================================================
-# PLANT STATUS
+# AI STATUS
 # =====================================================
 
-if len(alarms) == 0:
+st.subheader(
+    "AI Predictive Maintenance"
+)
+
+if prediction == 0:
 
     st.success(
-        "PLANT STATUS : NORMAL OPERATION"
+        f"AI Prediction : {fault_text}"
     )
 
 else:
 
     st.error(
-        "PLANT STATUS : ALARM CONDITION"
+        f"AI Prediction : {fault_text}"
     )
+
+# =====================================================
+# HEALTH
+# =====================================================
+
+st.subheader(
+    "Equipment Health"
+)
+
+st.progress(
+    health / 100
+)
+
+st.metric(
+    "Health Score (%)",
+    health
+)
 
 # =====================================================
 # KPI SECTION
@@ -105,17 +143,17 @@ c1, c2, c3, c4 = st.columns(4)
 
 c1.metric(
     "Pressure (bar)",
-    round(float(pressure), 2)
+    round(float(pressure),2)
 )
 
 c2.metric(
     "Flow (L/hr)",
-    round(float(flow), 2)
+    round(float(flow),2)
 )
 
 c3.metric(
     "Temperature (°C)",
-    round(float(temperature), 2)
+    round(float(temperature),2)
 )
 
 c4.metric(
@@ -124,65 +162,73 @@ c4.metric(
 )
 
 # =====================================================
-# ALARM PANEL
+# RECOMMENDATION
 # =====================================================
 
-st.divider()
+st.subheader(
+    "Maintenance Recommendation"
+)
 
-st.subheader("Alarm Panel")
+recommendation = {
 
-if len(alarms) == 0:
+    "NORMAL":
+        "No action required",
 
-    st.success(
-        "NO ACTIVE ALARMS"
-    )
+    "LOW PRESSURE":
+        "Inspect pump suction and leakage",
 
-else:
+    "HIGH PRESSURE":
+        "Inspect downstream blockage",
 
-    for alarm in alarms:
+    "LOW FLOW":
+        "Check valve restriction and pump condition",
 
-        st.error(alarm)
+    "HIGH TEMPERATURE":
+        "Inspect cooling and operating conditions",
 
-# =====================================================
-# EQUIPMENT HEALTH
-# =====================================================
+    "COMBINED FAULT":
+        "Immediate maintenance inspection required"
+}
 
-st.divider()
-
-st.subheader("Equipment Health")
-
-st.progress(health / 100)
-
-st.metric(
-    "Health Score (%)",
-    health
+st.info(
+    recommendation[fault_text]
 )
 
 # =====================================================
 # TRENDS
 # =====================================================
 
-st.divider()
+st.subheader(
+    "Pressure Trend"
+)
 
-st.subheader("Pressure Trend")
+st.line_chart(
+    df["PT101"]
+)
 
-st.line_chart(df["PT101"])
+st.subheader(
+    "Flow Trend"
+)
 
-st.subheader("Flow Trend")
+st.line_chart(
+    df["FT101"]
+)
 
-st.line_chart(df["FT101"])
+st.subheader(
+    "Temperature Trend"
+)
 
-st.subheader("Temperature Trend")
-
-st.line_chart(df["TT101"])
+st.line_chart(
+    df["TT101"]
+)
 
 # =====================================================
 # HISTORIAN
 # =====================================================
 
-st.divider()
-
-st.subheader("Historian Data")
+st.subheader(
+    "Historian Data"
+)
 
 st.dataframe(
     df.tail(20),

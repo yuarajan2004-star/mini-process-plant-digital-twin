@@ -1,0 +1,1 @@
+Successfully designed, developed, validated and commissioned an AI-enabled Digital Twin platform integrating process instrumentation, historian data logging, MQTT communication and predictive maintenance analytics with a 100% fault-classification validation success rate.

@@ -1,99 +1,153 @@
 # Mini Process Plant Digital Twin with AI-Based Predictive Maintenance
 
-## Overview
+## Project Overview
 
-A low-cost EPC-style engineering capstone project demonstrating:
+This project demonstrates the design, development, testing and commissioning of an Industry 4.0 Digital Twin platform for process plant monitoring and predictive maintenance.
 
-* Process Engineering
-* Piping Engineering
-* Mechanical Design
-* Instrumentation & Control
-* Digital Twin Technology
-* AI-Based Predictive Maintenance
+The system integrates process instrumentation, MQTT communication, historian data logging, AI fault classification and maintenance recommendations into a single engineering solution.
 
-The project consists of a real instrumented water circulation loop with live sensing, data acquisition, machine learning fault detection, and a digital twin dashboard.
+---
+
+## Objectives
+
+* Develop a real-time Digital Twin platform
+* Implement historian-based process monitoring
+* Build an AI predictive maintenance system
+* Detect process abnormalities automatically
+* Generate maintenance recommendations
+* Create EPC-style engineering documentation
 
 ---
 
 ## System Architecture
 
-Tank (T-101)
-→ Pump (P-101)
-→ Flow Sensor (FT-101)
-→ Pressure Sensor (PT-101)
-→ Ball Valve (V-101)
-→ Temperature Sensor (TT-101)
-→ Return to Tank
+PT101 (Pressure)
+
+FT101 (Flow)
+
+TT101 (Temperature)
+
+↓
+
+ESP32 / Data Acquisition Layer
+
+↓
+
+MQTT Communication Layer
+
+↓
+
+Historian Logger
+
+↓
+
+Historian Database
+
+↓
+
+AI Predictive Maintenance Engine
+
+↓
+
+Digital Twin Dashboard
+
+↓
+
+Maintenance Recommendation Engine
+
+---
+
+## Technologies Used
+
+### Engineering
+
+* Process Engineering
+* Instrumentation Engineering
+* Industrial Automation
+* Digital Twin
+* Predictive Maintenance
+
+### Software
+
+* Python
+* MQTT
+* Mosquitto
+* Streamlit
+* Pandas
+* Scikit-Learn
+* Git
+
+---
+
+## Key Features
+
+### Real-Time Monitoring
+
+* Pressure Monitoring
+* Flow Monitoring
+* Temperature Monitoring
+* Equipment Status Monitoring
+
+### Historian System
+
+* Continuous Data Logging
+* CSV Historian Database
+* Trend Analysis
+
+### AI Predictive Maintenance
+
+* Normal Detection
+* Low Pressure Detection
+* High Pressure Detection
+* Low Flow Detection
+* High Temperature Detection
+* Combined Fault Detection
+
+### Maintenance Recommendations
+
+Automatic maintenance recommendations based on detected process conditions.
+
+---
+
+## Validation Results
+
+| Test Case        | Result |
+| ---------------- | ------ |
+| Normal Operation | PASS   |
+| Low Pressure     | PASS   |
+| High Pressure    | PASS   |
+| Low Flow         | PASS   |
+| High Temperature | PASS   |
+| Combined Fault   | PASS   |
+
+Validation Success Rate: 100%
 
 ---
 
 ## Engineering Deliverables
 
-* Process Design Basis
-* Process Flow Diagram (PFD)
-* Piping & Instrumentation Diagram (P&ID)
-* Equipment Datasheets
-* Line List
-* Mechanical Design Package
-* Instrument Index
-* QA/QC Documentation
-* HAZOP Study
-* Commissioning Report
+* Process Engineering Package
+* Mechanical Engineering Package
+* Instrumentation Package
+* Firmware Package
+* MQTT Architecture
+* Historian System
+* AI Predictive Maintenance Model
+* Digital Twin Dashboard
+* FAT Documentation
+* SAT Documentation
+* Commissioning Package
+* Engineering Dossier
 
 ---
 
-## Digital Twin Features
+## Project Outcome
 
-* Real-time sensor acquisition
-* Data logging
-* MQTT communication
-* Streamlit dashboard
-* Predictive maintenance analytics
-* Fault detection using machine learning
+Successfully developed and validated an AI-enabled Digital Twin platform capable of:
 
----
+* Real-time process monitoring
+* Fault classification
+* Predictive maintenance
+* Maintenance recommendation generation
 
-## Technologies
-
-### Hardware
-
-* ESP32 DevKit
-* YF-S201 Flow Sensor
-* Pressure Transducer
-* DS18B20 Temperature Sensor
-* DC Water Pump
-* PVC Ball Valve
-
-### Software
-
-* Python
-* Streamlit
-* Scikit-Learn
-* MQTT
-* Arduino IDE
-* Draw.io
-* GitHub
-
----
-
-## Current Status
-
-Phase 1 Complete
-
-* Process Design Basis
-* Equipment List
-* Instrument Index
-* PFD
-* P&ID
-
-Next Phase:
-Mechanical Engineering Package
-
----
-
-## Author
-
-Yuarajan Senthilkumar
-
-B.Tech Mechanical Engineering
-VIT Chennai
+Project Status: COMPLETE (Version 1.0)

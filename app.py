@@ -22,8 +22,58 @@ latest = df.iloc[-1]
 pressure = latest["PT101"]
 flow = latest["FT101"]
 temperature = latest["TT101"]
-pump = latest["Pump_Status"]
+alarm = []
 
+if pressure < 0.85:
+    alarm.append("LOW PRESSURE")
+
+if pressure > 1.15:
+    alarm.append("HIGH PRESSURE")
+
+if flow < 95:
+    alarm.append("LOW FLOW")
+
+if temperature > 33:
+    alarm.append("HIGH TEMPERATURE")
+pump = latest["Pump_Status"]
+st.divider()
+
+st.subheader("Alarm Panel")
+
+if len(alarm) == 0:
+
+    st.success(
+        "NO ACTIVE ALARMS"
+    )
+
+else:
+
+    for a in alarm:
+
+        st.error(a)
+
+health = 100
+
+if pressure < 0.90:
+    health -= 10
+
+if flow < 100:
+    health -= 10
+
+if temperature > 32:
+    health -= 10
+st.subheader(
+    "Equipment Health"
+)
+
+st.progress(
+    health/100
+)
+
+st.metric(
+    "Health Score (%)",
+    health
+)
 st.title("Mini Process Plant Digital Twin")
 
 c1,c2,c3,c4 = st.columns(4)
